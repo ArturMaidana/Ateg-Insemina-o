@@ -1,4 +1,4 @@
-package com.ateginseminacao
+package com.senarmt.ateginseminacao
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

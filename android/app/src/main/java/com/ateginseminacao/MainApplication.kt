@@ -1,4 +1,4 @@
-package com.ateginseminacao
+package com.senarmt.ateginseminacao
 
 import android.app.Application
 import com.facebook.react.PackageList
