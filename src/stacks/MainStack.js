@@ -9,6 +9,9 @@ import AgendaPrevious from '../screens/Attendance/AttendanceData';
 import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 import SyncHistory from '../screens/SyncHistoryScreen/SyncHistoryScreen';
 import Synchronize from '../screens/Synchronize/index';
+import ResetPassword from '../screens/ResetPassword/index';
+import NewPassword from '../screens/NewPassword/index';
+import ValitePin from '../screens/ValidatePin/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +32,9 @@ export default function MainStack() {
       <Stack.Screen name="SyncHistory" component={SyncHistory} />
       <Stack.Screen name="AgendaPrevious" component={AgendaPrevious} />
       <Stack.Screen name="Synchronize" component={Synchronize} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+      <Stack.Screen name="ValidePin" component={ValitePin} />
 
       <Stack.Screen name="MainTabs" component={MainTabs} />
     </Stack.Navigator>

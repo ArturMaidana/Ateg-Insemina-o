@@ -1262,7 +1262,7 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 16,
     marginBottom: 16,
     elevation: 3,
@@ -1329,7 +1329,7 @@ const styles = StyleSheet.create({
   },
   tabBarCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 10,
     marginBottom: 16,
     elevation: 2,
     shadowColor: '#000',
@@ -1340,7 +1340,7 @@ const styles = StyleSheet.create({
   },
   tabContentCard: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 10,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },

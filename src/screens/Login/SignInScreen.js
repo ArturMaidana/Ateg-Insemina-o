@@ -170,7 +170,7 @@ export default function SignInScreen() {
 
               <TouchableOpacity
                 style={styles.forgotPasswordButton}
-                onPress={() => navigation.navigate('ForgetPassword')}
+                onPress={() => navigation.navigate('ResetPassword')}
               >
                 <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
               </TouchableOpacity>

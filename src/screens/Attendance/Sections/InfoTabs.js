@@ -101,7 +101,7 @@ export default function InformationTab({
           schedule.date != dataAtual() &&
           !inseminacaoVisit.id &&
           inseminacaoVisitExist == false && (
-            <CardAlert title="Não está na data do agendamento." />
+            <WarningBox text="Não está na data de agendamento!" />
           )}
 
         {inseminacaoVisit &&
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF8E1',
     borderWidth: 1,
     borderColor: '#FFE5B3',
-    borderRadius: 12,
+    borderRadius: 8,
     padding: 16,
     marginBottom: 24,
     width: '90%',

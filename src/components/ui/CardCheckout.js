@@ -3,16 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../../utils/theme';
 import { formatDateTime } from '../../utils/dateFormat';
-import { CheckIcon } from '../Icons/Icons';
+import { CheckCircleSolid, CheckIcon } from '../Icons/Icons';
 
 const CardNotAgenda = ({ title, dateStart, dateEnd }) => {
   return (
     <View style={styles.card}>
-      <CheckIcon />
+      <CheckCircleSolid />
       <View style={styles.cardTextContainer}>
-        <Text style={styles.cardDescription}>{title}</Text>
-        <Text style={styles.cardDescription}>Data do Inicio: {dateStart}</Text>
-        <Text style={styles.cardDescription}>Data do Término: {dateEnd}</Text>
+        <Text style={styles.cardDescription}>
+          <Text style={styles.cardtitle}>{title}</Text>
+        </Text>
+        <Text style={styles.cardDescription}>
+          Data do Inicio:<Text style={styles.cardtexts}> {dateStart}</Text>
+        </Text>
+        <Text style={styles.cardDescription}>
+          Data do Término: <Text style={styles.cardtexts}> {dateEnd}</Text>
+        </Text>
       </View>
     </View>
   );
@@ -21,14 +27,14 @@ const CardNotAgenda = ({ title, dateStart, dateEnd }) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
+    padding: 18,
+    borderRadius: 5,
+    marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 90,
+    height: 100,
     elevation: 3,
-    width: '86%',
+    width: '100%',
   },
   cardTextContainer: {
     flex: 1,
@@ -38,7 +44,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
     marginTop: 4,
-    fontWeight: 'bold',
+    fontWeight: '600',
+  },
+  cardtexts: {
+    fontSize: 12,
+    color: '#333',
+    fontWeight: '400',
+  },
+  cardtitle: {
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '900',
   },
 });
 

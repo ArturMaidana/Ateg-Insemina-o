@@ -11,13 +11,13 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { setHeaderOptions } from '../../components/ui/HeaderTitle';
 import api from './../../services/endpont';
-import LoadingInfo from '../../components/LoadingInfo';
+import LoadingInfo from '../../screens/LoadingInfo/index';
 import {
   AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
 } from 'react-native-alert-notification';
-import { COLORS } from '../../constants/theme';
+import { COLORS } from '../../utils/theme';
 
 export default function ResetPassword() {
   const navigation = useNavigation();
@@ -59,7 +59,7 @@ export default function ResetPassword() {
       return Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: 'Erro',
-        textBody: error,
+        textBody: error.message || 'Erro ao processar a solicitação', // ← Acesse a propriedade message
         button: 'Fechar',
       });
     } finally {
@@ -145,10 +145,12 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: COLORS.primary2,
-    marginBottom: 8,
+    color: '#007C6F',
+    fontFamily: 'Ubuntu',
+    fontSize: 20,
+    fontWeight: '400',
+    lineHeight: 18,
+    marginBottom: 14,
   },
   subtitle: {
     fontSize: 16,
@@ -158,6 +160,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    paddingVertical: 5,
     marginBottom: 30,
   },
   input: {
@@ -183,7 +186,7 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 16,
-    color: COLORS.primary2,
+    color: '#007C6F',
     fontWeight: 'bold',
   },
   optionSubtitle: {
@@ -195,5 +198,12 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 20,
     textAlign: 'center',
+  },
+  label: {
+    color: '#333',
+    fontFamily: 'Ubuntu',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 18,
   },
 });
