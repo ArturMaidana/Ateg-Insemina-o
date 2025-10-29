@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   eventsSection: {
     backgroundColor: '#ffffffff',
     paddingHorizontal: ms(15),
+    paddingBottom: ms(15),
   },
   eventsHeader: {
     flexDirection: 'row',

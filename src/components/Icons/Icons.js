@@ -271,6 +271,17 @@ export const CancelIcon = ({ size = 24, color = '#ffffffff' }) => (
   </Svg>
 );
 
+export const Checkbox = ({ size = 25, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 512 512" width={size} height={size}>
+      <Path
+        fill={color}
+        d="M400 48H112a64.07 64.07 0 0 0-64 64v288a64.07 64.07 0 0 0 64 64h288a64.07 64.07 0 0 0 64-64V112a64.07 64.07 0 0 0-64-64m-35.75 138.29l-134.4 160a16 16 0 0 1-12 5.71h-.27a16 16 0 0 1-11.89-5.3l-57.6-64a16 16 0 1 1 23.78-21.4l45.29 50.32l122.59-145.91a16 16 0 0 1 24.5 20.58"
+      ></Path>
+    </Svg>
+  );
+};
+
 export const CloseIcon = ({ size = 24, color = '#333' }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
@@ -629,7 +640,7 @@ export const Download = ({ size = 24, color = '#ffffffff' }) => (
   </Svg>
 );
 
-export const CheckboxFilled = ({ size = 16, color = '#333' }) => {
+export const CheckboxFilled = ({ size = 25, color = '#333' }) => {
   return (
     <Svg viewBox="0 0 16 16" width={size} height={size}>
       <Path
@@ -637,6 +648,21 @@ export const CheckboxFilled = ({ size = 16, color = '#333' }) => {
         fillRule="evenodd"
         d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5zM3 3v10h10V3z"
         clipRule="evenodd"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const TriangleAlert = ({ size = 16, color = '#ff9100ff' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"
       ></Path>
     </Svg>
   );
@@ -689,6 +715,145 @@ export const ClockAlert = ({ size = 27, color = '#00A859' }) => {
         <Path d="M12 6v6l4 2"></Path>
         <Path d="M16 21.16a10 10 0 1 1 5-13.516M20 11.5v6m0 4h.01"></Path>
       </G>
+    </Svg>
+  );
+};
+
+export const OutlineLocationOn = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill={color}
+        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9"
+      ></Path>
+      <Circle cx="12" cy="9" r="2.5" fill={color}></Circle>
+    </Svg>
+  );
+};
+
+export const LocationOn = ({ size = 16, color = '#333' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill="currentColor"
+        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9"
+      ></Path>
+      <Circle cx="12" cy="9" r="2.5" fill="currentColor"></Circle>
+    </Svg>
+  );
+};
+
+export const CowFace = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 32 32" width={size} height={size}>
+      <G fill={color}>
+        <Path d="M20 16c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1s-1 .45-1 1v1c0 .55.45 1 1 1M5.91 5.5c1.17 0 2.17.78 2.48 1.85c-.34.34-.62.73-.85 1.15H6.09A2.59 2.59 0 0 1 3.5 5.91v-.2c0-.12.09-.21.21-.21zM14 21a1 1 0 1 1-2 0a1 1 0 0 1 2 0m5 1a1 1 0 1 0 0-2a1 1 0 0 0 0 2"></Path>
+        <Path d="m13.149 1.097l-.01.005c-.299.119-.606.27-.91.48c-1.262.835-2.06 2.048-2.204 3.469A4.99 4.99 0 0 0 6 3H2.5A1.5 1.5 0 0 0 1 4.5V6a5 5 0 0 0 5 5v8.077a6.4 6.4 0 0 0-1 3.33a6.5 6.5 0 0 0 6.255 6.581a6.625 6.625 0 0 0 9.49 0A6.5 6.5 0 0 0 27 22.407a6.4 6.4 0 0 0-1-3.334V11a5 5 0 0 0 5-5V4.5A1.5 1.5 0 0 0 29.5 3H26a4.98 4.98 0 0 0-3.216 1.18c-.329-1.04-1.026-1.945-2.014-2.598a4.6 4.6 0 0 0-.909-.48l-.01-.005c-1.177-.455-2.236.761-1.742 1.855l.003.008l.004.008c.318.67.383 1.343.146 2.032H14.92a9 9 0 0 1-.077-.446a5.7 5.7 0 0 1-.067-.963c.01-.313.058-.515.109-.623l.004-.008l.003-.008c.494-1.094-.565-2.31-1.742-1.855M11.5 7H17l1.38 1.38A5.54 5.54 0 0 0 22.3 10h1.667l.012.11q.021.195.021.39v7.994a6.6 6.6 0 0 0-3.52-.993H15V16.12c0-2.58-1.36-5.19-3.5-6.62C10.432 8.785 8 9 8 9H6a3 3 0 0 1-3-3V5h3a3 3 0 0 1 2.748 1.793l.405.922l.919-.412c.45-.2.936-.304 1.428-.303m0 20A4.5 4.5 0 0 1 7 22.433a4.44 4.44 0 0 1 .817-2.508l.07-.099c.926-.828 2.24-1.35 3.714-1.325h8.88c1.442-.004 2.725.512 3.633 1.323l.069.098c.52.735.806 1.61.817 2.511A4.5 4.5 0 0 1 20.5 27zm1.628 1h5.736a4.65 4.65 0 0 1-4.82.56a4.7 4.7 0 0 1-.916-.56M26 9h-1.312a5 5 0 0 0-.228-.5h1.45a2.59 2.59 0 0 0 2.59-2.59v-.2c0-.12-.09-.21-.21-.21h-2.2c-1.17 0-2.17.78-2.48 1.85q.014.014.024.029a5 5 0 0 0-.465-.409l.078-.18A3 3 0 0 1 26 5h3v1a3 3 0 0 1-3 3m-15 6v-1c0-.55.45-1 1-1s1 .45 1 1v1c0 .55-.45 1-1 1s-1-.45-1-1"></Path>
+      </G>
+    </Svg>
+  );
+};
+
+export const AccountCowboyHatOutline = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill={color}
+        d="M19 4c-.6 0-1 .4-1 1v1h-1.5l-1.4-3c-.1-.2-.2-.4-.4-.5c-.5-.5-1.3-.6-2-.3l-.7.2l-.7-.3c-.7-.3-1.5-.2-2 .3c-.2.2-.3.4-.4.6L7.5 6H6V5c0-.6-.4-1-1-1s-1 .4-1 1v1c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5c0-.5-.4-1-1-1M4 22v-3c0-2.67 5.33-4 8-4s8 1.33 8 4v3zm14.1-1.9V19c0-.64-3.13-2.1-6.1-2.1S5.9 18.36 5.9 19v1.1zM16 9v1c0 2.21-1.79 4-4 4s-4-1.79-4-4V9h2v1a2 2 0 1 0 4 0V9z"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const Doctor = ({ size = 25, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 15 15" width={size} height={size}>
+      <Path
+        fill={color}
+        d="M5.5 7A2.5 2.5 0 0 1 3 4.5v-2a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v2a3.49 3.49 0 0 0 1.51 2.87A4.4 4.4 0 0 1 5 10.5a3.5 3.5 0 1 0 7 0v-.57a2 2 0 1 0-1 0v.57a2.5 2.5 0 0 1-5 0a4.4 4.4 0 0 1 1.5-3.13A3.49 3.49 0 0 0 9 4.5v-2A1.5 1.5 0 0 0 7.5 1H7a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v2A2.5 2.5 0 0 1 5.5 7m6 2a1 1 0 1 1 0-2a1 1 0 0 1 0 2"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const PhoneOutline = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 16 16" width={size} height={size}>
+      <Path
+        fill="none"
+        stroke={color}
+        strokeWidth={1.2}
+        d="m12.283 9.313l1.572.629a.23.23 0 0 1 .145.214v4.16a.184.184 0 0 1-.184.184C7.29 14.5 2 9.21 2 2.684v-.492C2 2.086 2.086 2 2.192 2h3.652c.094 0 .179.058.214.145l.629 1.572a1.28 1.28 0 0 1-.283 1.38c-.5.498-.5 1.308 0 1.807l2.692 2.692c.5.5 1.309.5 1.808 0a1.28 1.28 0 0 1 1.379-.283Z"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const DocumentMedicineBroken = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeWidth="2"
+        d="M12 6v2m0 0v2m0-2h-2m2 0h2m-6 6h1m7 0h-4m-3 4h6M3 14v-4c0-3.771 0-5.657 1.172-6.828S7.229 2 11 2h2c3.771 0 5.657 0 6.828 1.172c.654.653.943 1.528 1.07 2.828M21 10v4c0 3.771 0 5.657-1.172 6.828S16.771 22 13 22h-2c-3.771 0-5.657 0-6.828-1.172c-.654-.653-.943-1.528-1.07-2.828"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const Medical = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill={color}
+        d="M7 12.917v.583a4.5 4.5 0 1 0 9 0v-1.67a3.001 3.001 0 1 1 2 0v1.67a6.5 6.5 0 1 1-13 0v-.583A6 6 0 0 1 0 7V2a2 2 0 0 1 2-2h1a1 1 0 1 1 0 2H2v5a4 4 0 1 0 8 0V2H9a1 1 0 1 1 0-2h1a2 2 0 0 1 2 2v5a6 6 0 0 1-5 5.917M17 10a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
+      ></Path>
+    </Svg>
+  );
+};
+
+export const Vaccine = ({ size = 24, color = '#00A859' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M17 2c0 .51 0 .765.068 1.002q.056.196.155.375c.12.216.3.396.66.757l1.983 1.982c.36.36.54.54.757.661q.178.1.375.155C21.235 7 21.49 7 22 7M11.693 7l-4.928 4.928c-1.065 1.065-1.597 1.597-1.724 2.235c-.055.276-.055.56 0 .837c.127.638.66 1.17 1.724 2.235S8.362 18.832 9 18.959M11 6l6 6m-9 6.637l-1.17.835c-.47.337-.705.505-.964.525q-.15.012-.298-.025c-.251-.062-.455-.267-.864-.675c-.41-.41-.614-.614-.676-.865a1 1 0 0 1-.025-.298c.02-.259.188-.494.524-.965L5.363 16M13.5 8l5-4M16 10.5l4-5m-15.5 14L2 22m11.4-4l.58.58c.29.29.435.435.611.427c.177-.008.308-.165.57-.48L16.6 16.8M19 18a4 4 0 1 1-8 0a4 4 0 0 1 8 0"
+        color={color}
+      ></Path>
+    </Svg>
+  );
+};
+
+export const CircleAlert = ({ size = 16, color = '#333' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <G
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      >
+        <Circle cx="12" cy="12" r="10"></Circle>
+        <Path d="M12 8v4m0 4h.01"></Path>
+      </G>
+    </Svg>
+  );
+};
+
+export const OutlineInsertPhoto = ({ size = 16, color = '#333' }) => {
+  return (
+    <Svg viewBox="0 0 24 24" width={size} height={size}>
+      <Path
+        fill="currentColor"
+        d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86l-3 3.87L9 13.14L6 17h12z"
+      ></Path>
     </Svg>
   );
 };

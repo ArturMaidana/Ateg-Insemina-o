@@ -2,16 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../../utils/theme';
+import { CheckIcon } from '../Icons/Icons';
 
 const CardCheckout = ({ title }) => {
   return (
     <View style={styles.card}>
-      <Icon
-        name="info"
-        size={32}
-        color={COLORS.primary}
-        style={{ marginTop: 5 }}
-      />
+      <CheckIcon />
       <View style={styles.cardTextContainer}>
         <Text style={styles.cardDescription}>{title}</Text>
       </View>

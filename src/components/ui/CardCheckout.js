@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 100,
+    height: 90,
+    elevation: 3,
+    width: '86%',
   },
   cardTextContainer: {
     flex: 1,
@@ -34,8 +36,9 @@ const styles = StyleSheet.create({
   },
   cardDescription: {
     fontSize: 12,
-    color: '#666',
+    color: '#333',
     marginTop: 4,
+    fontWeight: 'bold',
   },
 });
 

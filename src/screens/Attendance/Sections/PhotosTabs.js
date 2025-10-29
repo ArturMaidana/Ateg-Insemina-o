@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
   Image,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CardAlert from '../../../components/ui/CardAlert';
@@ -16,7 +17,21 @@ import {
   ImageOutline,
   Download,
   CancelIcon,
+  TriangleAlert,
+  CircleAlert,
 } from '../../../components/Icons/Icons';
+
+const WarningBox = ({ text }) => (
+  <View style={styles.warningBox}>
+    <CircleAlert
+      name="info-outline"
+      size={24}
+      color="#FFA500"
+      style={styles.warningIcon}
+    />
+    <Text style={styles.warningText}>{text}</Text>
+  </View>
+);
 
 export default function PhotosTab({
   inseminacaoVisit,
@@ -28,70 +43,92 @@ export default function PhotosTab({
   isHaveAttendence,
 }) {
   return (
-    <View style={styles.container}>
-      {!inseminacaoVisit.id && <CardAlert title="Inicie o atendimento." />}
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        {!inseminacaoVisit.id && <WarningBox text="Inicie o Atendimento!" />}
 
-      {inseminacaoVisit && inseminacaoVisit.id && (
-        <>
-          {images.length > 0 ? (
-            <FlatList
-              data={images}
-              keyExtractor={item => item.id.toString()}
-              renderItem={renderItem}
-              style={styles.listContainer}
-            />
-          ) : (
-            <View style={styles.emptyContainer}>
-              <Image
-                source={require('../../../assets/UploadPhotos.png')}
-                style={styles.emptyImage}
+        {inseminacaoVisit && inseminacaoVisit.id && (
+          <>
+            {images.length > 0 ? (
+              <FlatList
+                data={images}
+                keyExtractor={item => item.id.toString()}
+                renderItem={renderItem}
+                style={styles.listContainer}
+                scrollEnabled={false}
               />
-              <Text style={styles.emptyTitle}>
-                Aviso: Cada atendimento deve conter no mínimo 3 fotos e no
-                máximo 5 fotos.
-              </Text>
-            </View>
-          )}
+            ) : (
+              <View style={styles.emptyContainer}>
+                <WarningBox
+                  text=" Aviso: Cada atendimento deve conter no mínimo 3 fotos e no
+                  máximo 5 fotos."
+                />
+              </View>
+            )}
 
-          {inseminacaoVisit.pending == 0 && (
-            <View style={styles.listContainer}>
-              {!hasCameraPermission && (
-                <View style={styles.permissionWarning}>
-                  <Icon name="warning" size={20} color="#FFA500" />
-                  <Text style={styles.permissionText}>
-                    Permissão da câmera necessária
+            {inseminacaoVisit.pending == 0 && (
+              <View style={styles.listContainer}>
+                {!hasCameraPermission && (
+                  <View style={styles.permissionWarning}>
+                    <TriangleAlert />
+                    <Text style={styles.permissionText}>
+                      Permissão da câmera necessária
+                    </Text>
+                  </View>
+                )}
+
+                <TouchableOpacity
+                  style={[
+                    styles.addButton,
+                    !hasCameraPermission && styles.disabledButton,
+                  ]}
+                  onPress={getLocationPhoto}
+                  activeOpacity={0.8}
+                  disabled={!hasCameraPermission && loading}
+                >
+                  <Text style={styles.addButtonText}>
+                    {loading
+                      ? 'Carregando...'
+                      : images.length > 0
+                      ? 'Adicionar Foto'
+                      : 'Tirar Foto'}
                   </Text>
-                </View>
-              )}
-
-              <TouchableOpacity
-                style={[
-                  styles.addButton,
-                  !hasCameraPermission && styles.disabledButton,
-                ]}
-                onPress={getLocationPhoto}
-                activeOpacity={0.8}
-                disabled={!hasCameraPermission && loading}
-              >
-                <Text style={styles.addButtonText}>
-                  {loading
-                    ? 'Carregando...'
-                    : images.length > 0
-                    ? 'Adicionar Foto'
-                    : 'Tirar Foto'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </>
-      )}
-    </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          </>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
+  },
+  warningBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF8E1',
+    borderWidth: 1,
+    borderColor: '#FFE5B3',
+    borderRadius: 12,
+    padding: 16,
+    marginLeft: 20,
+    marginTop: 20,
+    marginBottom: 24,
+    width: '90%',
+  },
+  warningIcon: {
+    marginRight: 12,
+  },
+  warningText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#665A3E',
+    lineHeight: 20,
+    paddingLeft: 10,
   },
   container: {
     flex: 1,
@@ -103,12 +140,7 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingVertical: 10,
   },
-  emptyImage: {
-    width: 200,
-    height: 200,
-    resizeMode: 'contain',
-    marginBottom: 4,
-  },
+
   emptyTitle: {
     fontFamily: 'Ubuntu-Light',
     fontSize: 14,

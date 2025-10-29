@@ -302,18 +302,18 @@ export default function Service() {
       if (users.length == 1) {
         setNameTecnico(users[0].name);
       }
-
-      getScheduleId(setSchedule, scheduleId);
-      getRacas(setRacas, scheduleId);
-      getInseminacaoScheduleId(setInseminacaoVisit, scheduleId);
-      getInseminacaoScheduleExist(setInseminacaoVisitExist);
-      allJustifications(setJustifications);
+      await getScheduleId(setSchedule, scheduleId);
+      await getRacas(setRacas, scheduleId);
+      await getInseminacaoScheduleId(setInseminacaoVisit, scheduleId);
+      await getInseminacaoScheduleExist(setInseminacaoVisitExist);
+      await allJustifications(setJustifications);
 
       const currentDateTime = new Date().toLocaleString('pt-BR', {
         timeZone: 'America/Cuiaba',
       });
 
       loadImages();
+      setLoading(false);
     } catch (error) {
       console.log('Erro ao buscar última sincronização: ', error);
     }
@@ -743,7 +743,6 @@ export default function Service() {
     } catch (error) {
       console.log('Erro ao buscar última sincronização: ', error);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -954,33 +953,6 @@ export default function Service() {
     </View>
   );
 
-  // ================================================================
-  // ==                FUNÇÃO DE STATUS (ADICIONADA)               ==
-  // ================================================================
-  const getStatusInfo = () => {
-    if (inseminacaoVisit.pending == 1) {
-      return { text: 'Atendimento Realizado', color: '#00A859' }; // Verde
-    }
-    if (inseminacaoVisit.id && !inseminacaoVisit.checkout) {
-      return { text: 'Atendimento em Progresso', color: '#007BFF' }; // Azul
-    }
-    if (
-      schedule.date == dataAtual() &&
-      !inseminacaoVisit.id &&
-      !inseminacaoVisitExist
-    ) {
-      return { text: 'Aguardando Atendimento', color: '#FFA500' }; // Laranja
-    }
-    if (inseminacaoVisitExist) {
-      return { text: 'Atendimento Pendente', color: '#DC3545' }; // Vermelho
-    }
-    if (schedule.date != dataAtual() && !inseminacaoVisit.id) {
-      return { text: 'Agendamento Fora da Data', color: '#6c757d' }; // Cinza
-    }
-    return { text: 'Indefinido', color: '#6c757d' }; // Cinza
-  };
-  // ================================================================
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -1008,12 +980,6 @@ export default function Service() {
       <Text style={styles.statValue}>{value}</Text>
     </View>
   );
-
-  // ================================================================
-  // ==                CHAMADA DA FUNÇÃO DE STATUS                 ==
-  // ================================================================
-  const statusInfo = getStatusInfo();
-  // ================================================================
 
   return (
     <View style={styles.screen}>
@@ -1092,21 +1058,9 @@ export default function Service() {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {/* ================================================================ */}
-        {/* ==                STATUS BADGE ATUALIZADO (DINÂMICO)            == */}
-        {/* ================================================================ */}
-        <View
-          style={[
-            styles.statusBadge,
-            {
-              backgroundColor: statusInfo.color,
-              borderColor: statusInfo.color,
-            },
-          ]}
-        >
-          <Text style={styles.statusBadgeText}>{statusInfo.text}</Text>
+        <View style={styles.statusBadge}>
+          <Text style={styles.statusBadgeText}>Atendimento Realizado!</Text>
         </View>
-        {/* ================================================================ */}
 
         <View style={styles.infoCard}>
           <InfoItem
@@ -1195,12 +1149,7 @@ export default function Service() {
           )}
 
           {active === 2 && (
-            <LocationTab
-              schedule={schedule} // <--- ADICIONE ESTA LINHA
-              openMap={openMap}
-              error={error}
-              // A prop 'location={location}' foi removida pois não é mais usada pela aba
-            />
+            <LocationTab openMap={openMap} location={location} error={error} />
           )}
         </View>
       </ScrollView>
@@ -1246,7 +1195,8 @@ const styles = StyleSheet.create({
   },
 
   statusBadge: {
-    // backgroundColor e borderColor virão dinamicamente
+    backgroundColor: '#E6F4EB',
+    borderColor: '#00A859',
     borderWidth: 1,
     borderRadius: 16,
     paddingVertical: 4,
@@ -1256,7 +1206,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   statusBadgeText: {
-    color: '#FFFFFF', // Texto branco para contraste
+    color: '#008346',
     fontSize: 13,
     fontWeight: '500',
   },
