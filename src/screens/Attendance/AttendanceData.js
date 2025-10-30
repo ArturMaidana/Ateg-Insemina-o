@@ -954,32 +954,28 @@ export default function Service() {
     </View>
   );
 
-  // ================================================================
-  // ==                FUNÇÃO DE STATUS (ADICIONADA)               ==
-  // ================================================================
   const getStatusInfo = () => {
     if (inseminacaoVisit.pending == 1) {
-      return { text: 'Atendimento Realizado', color: '#00A859' }; // Verde
+      return { text: 'Atendimento Realizado', color: '#00A859' };
     }
     if (inseminacaoVisit.id && !inseminacaoVisit.checkout) {
-      return { text: 'Atendimento em Progresso', color: '#007BFF' }; // Azul
+      return { text: 'Atendimento em Progresso', color: '#007BFF' };
     }
     if (
       schedule.date == dataAtual() &&
       !inseminacaoVisit.id &&
       !inseminacaoVisitExist
     ) {
-      return { text: 'Aguardando Atendimento', color: '#FFA500' }; // Laranja
+      return { text: 'Aguardando Atendimento', color: '#FFA500' };
     }
     if (inseminacaoVisitExist) {
-      return { text: 'Atendimento Pendente', color: '#DC3545' }; // Vermelho
+      return { text: 'Atendimento Pendente', color: '#DC3545' };
     }
     if (schedule.date != dataAtual() && !inseminacaoVisit.id) {
-      return { text: 'Agendamento Fora da Data', color: '#6c757d' }; // Cinza
+      return { text: 'Agendamento Fora da Data', color: '#6b0aacff' };
     }
-    return { text: 'Indefinido', color: '#6c757d' }; // Cinza
+    return { text: 'Indefinido', color: '#6c757d' };
   };
-  // ================================================================
 
   if (loading) {
     return (
@@ -1009,11 +1005,7 @@ export default function Service() {
     </View>
   );
 
-  // ================================================================
-  // ==                CHAMADA DA FUNÇÃO DE STATUS                 ==
-  // ================================================================
   const statusInfo = getStatusInfo();
-  // ================================================================
 
   return (
     <View style={styles.screen}>
@@ -1092,9 +1084,6 @@ export default function Service() {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {/* ================================================================ */}
-        {/* ==                STATUS BADGE ATUALIZADO (DINÂMICO)            == */}
-        {/* ================================================================ */}
         <View
           style={[
             styles.statusBadge,
@@ -1106,7 +1095,6 @@ export default function Service() {
         >
           <Text style={styles.statusBadgeText}>{statusInfo.text}</Text>
         </View>
-        {/* ================================================================ */}
 
         <View style={styles.infoCard}>
           <InfoItem
@@ -1195,12 +1183,7 @@ export default function Service() {
           )}
 
           {active === 2 && (
-            <LocationTab
-              schedule={schedule} // <--- ADICIONE ESTA LINHA
-              openMap={openMap}
-              error={error}
-              // A prop 'location={location}' foi removida pois não é mais usada pela aba
-            />
+            <LocationTab schedule={schedule} openMap={openMap} error={error} />
           )}
         </View>
       </ScrollView>
@@ -1246,7 +1229,6 @@ const styles = StyleSheet.create({
   },
 
   statusBadge: {
-    // backgroundColor e borderColor virão dinamicamente
     borderWidth: 1,
     borderRadius: 16,
     paddingVertical: 4,
@@ -1256,7 +1238,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   statusBadgeText: {
-    color: '#FFFFFF', // Texto branco para contraste
+    color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '500',
   },

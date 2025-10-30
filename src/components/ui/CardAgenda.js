@@ -3,6 +3,8 @@ import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { formatDate } from '../../utils/dateFormat';
+// 1. Importe a função dataAtual (ajuste o caminho se necessário)
+import { dataAtual } from '../../utils/date';
 import {
   ArrowRightIcon,
   OutlineCalendarToday,
@@ -16,6 +18,7 @@ const STATUS_COLORS = {
   'Atendimento Realizado': '#00A859',
   'Aguardando Sincronização': '#6c757d',
   'Propriedade já atendida': '#DC3545',
+  'Agendamento Fora da Data': '#6b0aacff',
   default: '#6c757d',
 };
 
@@ -59,18 +62,32 @@ export default function CardAgenda({
     }
   };
 
+  // 3. Atualize a função getStatusText
   const getStatusText = () => {
+    // --- Status de prioridade (em progresso ou concluído) ---
+    // Esses são checados primeiro.
     if (status == 1 && pending == null && sent == null) {
       return 'Propriedade já atendida';
-    } else if (pending == 1 && sent == 1) {
-      return 'Atendimento Realizado';
-    } else if (pending == 0) {
-      return 'Atendimento em Progresso';
-    } else if (pending == 1 && sent == 0) {
-      return 'Aguardando Sincronização';
-    } else {
-      return 'Aguardando Atendimento';
     }
+    if (pending == 1 && sent == 1) {
+      return 'Atendimento Realizado';
+    }
+    if (pending == 0) {
+      return 'Atendimento em Progresso';
+    }
+    if (pending == 1 && sent == 0) {
+      return 'Aguardando Sincronização';
+    }
+
+    // --- Se nenhum status acima, checa a data ---
+    // (Assume que 'data' é 'YYYY-MM-DD' e 'dataAtual()' retorna o mesmo formato)
+    const today = dataAtual();
+    if (date != today) {
+      return 'Agendamento Fora da Data';
+    }
+
+    // Se a data for hoje e nenhum status se aplica, está aguardando.
+    return 'Aguardando Atendimento';
   };
 
   const statusText = getStatusText();

@@ -192,7 +192,7 @@ export default function SyncModal({ isVisible, onClose }) {
             style={styles.verMaisButton}
             onPress={() => {
               onClose();
-              // navigation.navigate('SyncHistory'); // Você pode implementar esta tela depois
+              navigation.navigate('SyncHistory'); // Você pode implementar esta tela depois
             }}
           >
             <Text style={styles.verMaisText}>Ver histórico completo</Text>

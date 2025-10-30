@@ -25,8 +25,6 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
-import Api from '../../Api';
-
 const { height } = Dimensions.get('window');
 
 export default function SignInScreen() {

@@ -120,7 +120,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{ flex: 1, backgroundColor: '#FAF8F5' }}>
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
@@ -132,13 +132,13 @@ export default function ProfileScreen() {
           <View style={styles.profileHeader}>
             <Image
               style={styles.avatar}
-              defaultSource={require('../../assets/AdminPhoto.png')}
+              source={require('../../assets/AdminPhoto.png')}
             />
             <Text style={styles.userName}>{userData.name}</Text>
             <Text style={styles.userEmail}>{userData.email}</Text>
-            <TouchableOpacity style={styles.editButton}>
+            {/* <TouchableOpacity style={styles.editButton}>
               <Text style={styles.editButtonText}>Editar Perfil</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           <View style={styles.section}>

@@ -1,5 +1,10 @@
-// Home.js
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import {
   ScrollView,
   PermissionsAndroid,
@@ -7,55 +12,108 @@ import {
   View,
   Text,
   StyleSheet,
+  Alert,
+  ActivityIndicator, // Importado para o loading
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { AuthContext } from '../../contexts/auth';
+
 import CardAgenda from '../../components/ui/CardAgenda';
 import CardNotAgenda from '../../components/ui/CardNotAgenda';
+import SyncComponent from '../../components/ui/SyncCompoent';
 import Header from '../../components/ui/Header';
-import MonthCarousel from '../../components/ui/MonthCarousel'; // Importe o novo componente
+import MonthCarousel from '../../components/ui/MonthCarousel';
 import { initializeTables } from '../../database/schemas';
-import { loadSchedules } from '../../database/modelSchedule';
+import {
+  loadSchedules, // Agora é uma Promise
+  getMonthlyScheduleCounts, // Agora é uma Promise
+} from '../../database/modelSchedule';
+
+const ASYNC_STORAGE_KEY = '@syncHistory';
 
 export default function Home() {
+  const { logoff } = useContext(AuthContext);
+
   const [locationPermission, setLocationPermission] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [agendas, setAgendas] = useState([]);
   const [monthlyEventCounts, setMonthlyEventCounts] = useState({});
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasEverSynced, setHasEverSynced] = useState(false);
+
+  /**
+   * [MODIFICADO]
+   * Esta função agora é 'async' e usa 'await' nas novas
+   * funções do banco de dados.
+   */
   async function updatedMonth(index) {
+    setIsLoading(true); // Inicia o loading
+    setAgendas([]); // Limpa as agendas antigas
     setSelectedMonth(index);
     const year = new Date().getFullYear();
-    const firstDayOfMonth = new Date(year, index, 1);
 
-    // Carrega os agendamentos para o mês selecionado
-    loadSchedules(
-      setAgendas,
-      firstDayOfMonth.getFullYear(),
-      String(firstDayOfMonth.getMonth() + 1).padStart(2, '0'),
-    );
+    try {
+      // 1. Carrega as contagens e os agendamentos em paralelo
+      const countsPromise = getMonthlyScheduleCounts(year);
+      const schedulesPromise = loadSchedules(
+        year,
+        String(index + 1).padStart(2, '0'),
+      );
 
-    // Aqui você pode adicionar a lógica para contar eventos por mês
-    // Por enquanto, vou deixar um placeholder
-    updateMonthlyEventCounts();
+      // 2. Espera os dois terminarem
+      const [counts, schedules] = await Promise.all([
+        countsPromise,
+        schedulesPromise,
+      ]);
+
+      // 3. Atualiza o estado
+      setMonthlyEventCounts(counts);
+      setAgendas(schedules);
+    } catch (error) {
+      console.error('Erro ao atualizar mês:', error);
+      setAgendas([]); // Garante que está vazio em caso de erro
+    } finally {
+      // 4. GARANTE que o loading termine, não importa o que aconteça
+      setIsLoading(false);
+    }
   }
 
-  const updateMonthlyEventCounts = () => {
-    // Esta função deve contar quantos eventos existem em cada mês
-    // Por enquanto, vou criar dados mockados
-    const counts = {};
-    for (let i = 0; i < 12; i++) {
-      counts[i] = Math.floor(Math.random() * 10); // Mock data
-    }
-    setMonthlyEventCounts(counts);
-  };
+  // Esta função não é mais necessária, pois a lógica está em 'updatedMonth'
+  // const updateMonthlyEventCounts = () => { ... };
 
+  /**
+   * [MODIFICADO]
+   * Este é o principal fluxo de carregamento da tela.
+   */
   useFocusEffect(
     useCallback(() => {
-      initializeTables();
-      const currentMonthIndex = new Date().getMonth();
-      setSelectedMonth(currentMonthIndex);
-      updatedMonth(currentMonthIndex);
-      updateMonthlyEventCounts();
+      const loadInitialData = async () => {
+        setIsLoading(true); // Inicia o loading
+        try {
+          // 1. Verifica se o usuário já sincronizou alguma vez
+          const syncHistory = await AsyncStorage.getItem(ASYNC_STORAGE_KEY);
+          setHasEverSynced(syncHistory !== null);
+
+          // 2. Espera as tabelas serem inicializadas
+          //    (Assumindo que initializeTables() é uma Promise.
+          //    Se não for, mude para: await initializeTables(); )
+          await initializeTables();
+
+          // 3. Carrega os dados do mês (esta função agora é async
+          //    e desliga o loading automaticamente)
+          const currentMonthIndex = new Date().getMonth();
+          await updatedMonth(currentMonthIndex);
+        } catch (error) {
+          console.error('Erro ao carregar dados iniciais:', error);
+          setIsLoading(false); // Garante que o loading pare em caso de erro
+        }
+      };
+
+      loadInitialData();
+      checkLocationPermission();
     }, []),
   );
 
@@ -74,39 +132,87 @@ export default function Home() {
     }
   };
 
+  /**
+   * [MODIFICADO]
+   * O handleSyncComplete agora é 'async'
+   */
+  const handleSyncComplete = async () => {
+    setIsLoading(true); // Mostra o spinner
+    await updatedMonth(selectedMonth); // Recarrega os dados
+    setHasEverSynced(true); // Marca que o app foi sincronizado
+    // O 'setIsLoading(false)' já está dentro de 'updatedMonth'
+  };
+
+  const handleSessionExpired = () => {
+    Alert.alert(
+      'Sessão Expirada',
+      'Sua sessão expirou. Por favor, faça login novamente.',
+      [{ text: 'OK', onPress: () => logoff(false) }],
+    );
+  };
+
+  /**
+   * A lógica de renderização agora tem 4 estados
+   */
+  const renderContent = () => {
+    // Estado 1: Carregando dados do banco
+    if (isLoading) {
+      return (
+        <ActivityIndicator
+          size="large"
+          color="#008346"
+          style={{ marginTop: 50 }}
+        />
+      );
+    }
+
+    // Estado 2: Carregado e com agendamentos
+    if (agendas.length > 0) {
+      return agendas.map(schedule => (
+        <CardAgenda
+          key={schedule.id}
+          scheduleId={schedule.id}
+          title={schedule.property}
+          produtor={schedule.producer}
+          dateEvent={schedule.dateEvent}
+          date={schedule.date}
+          datatime={schedule.time}
+          status={schedule.visited}
+          grupo={schedule.group_name}
+          protocolStep={schedule.protocol_step}
+          pending={schedule.pending}
+          sent={schedule.sent}
+          checkin={schedule.checkin}
+        />
+      ));
+    }
+
+    // Estado 3: Carregado, sem agendamentos, MAS JÁ SINCRONIZADO
+    if (hasEverSynced) {
+      return <CardNotAgenda />;
+    }
+
+    // Estado 4: Carregado, sem agendamentos E NUNCA SINCRONIZADO
+    return (
+      <SyncComponent
+        onSyncComplete={handleSyncComplete}
+        onSessionExpired={handleSessionExpired}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Header />
 
-      {/* Use o novo componente MonthCarousel */}
       <MonthCarousel
         displayMonthIndex={selectedMonth}
-        onMonthChange={updatedMonth}
+        onMonthChange={updatedMonth} // Passa a nova função async
         monthlyEventCounts={monthlyEventCounts}
       />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {agendas.length > 0 ? (
-          agendas.map(schedule => (
-            <CardAgenda
-              key={schedule.id}
-              scheduleId={schedule.id}
-              title={schedule.property}
-              produtor={schedule.producer}
-              dateEvent={schedule.dateEvent}
-              date={schedule.date}
-              datatime={schedule.time}
-              status={schedule.visited}
-              grupo={schedule.group_name}
-              protocolStep={schedule.protocol_step}
-              pending={schedule.pending}
-              sent={schedule.sent}
-              checkin={schedule.checkin}
-            />
-          ))
-        ) : (
-          <CardNotAgenda />
-        )}
+        {renderContent()}
       </ScrollView>
     </View>
   );
@@ -119,7 +225,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-
     paddingBottom: 100,
   },
 });

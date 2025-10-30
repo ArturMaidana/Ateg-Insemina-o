@@ -4,13 +4,14 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormHeader from '../../components/ui/FormHeader';
 
-import { CheckIcon } from '../../components/Icons/Icons';
+import { CheckIcon, BackPage } from '../../components/Icons/Icons';
 const ASYNC_STORAGE_KEY = '@syncHistory';
 
 const formatSyncDate = date => {
@@ -82,7 +83,15 @@ export default function SyncHistoryScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <FormHeader step={step} setStep={setStep} navigation={navigation} />
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.headerIcon}
+          onPress={() => navigation.goBack()}
+        >
+          <BackPage />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Histórico de Sincronização</Text>
+      </View>
       <FlatList
         data={history}
         keyExtractor={item => item.toISOString()}
@@ -105,6 +114,23 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: 16,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: Platform.OS === 'ios' ? 50 : 20,
+    backgroundColor: '#ffffffff',
+    paddingTop: 40,
+  },
+  headerIcon: {
+    padding: 5,
+    marginRight: 10,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333333',
   },
   itemContainer: {
     flexDirection: 'row',

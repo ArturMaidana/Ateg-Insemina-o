@@ -44,12 +44,12 @@ export default function Header() {
           <Text style={styles.welcomeText}>Bem-vindo, {userName}</Text>
           <Text style={styles.locationText}>{location}</Text>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.notificationButton}
           onPress={handleNotificationPress}
         >
           <BellIcon />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
